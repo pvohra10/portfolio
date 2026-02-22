@@ -13,6 +13,8 @@ import {
 import Aurora from "@/components/Aurora"
 
 import { useState } from "react"
+import myProfilePic from './assets/picture_of_me.jpg';
+import projectOne from './assets/mE40HHY.png';
 
 function App() {
   // Logic to handle opening the form from the nav button
@@ -105,7 +107,7 @@ function App() {
             {/* Right Side: Image - Changes shape based on screen size */}
             <div className="relative z-10 flex-shrink-0 mt-12 md:mt-0 md:-ml-40 lg:-ml-64 hover:scale-105 transition-transform duration-500">
               <img
-                src="src/assets/picture_of_me.jpg"
+                src={myProfilePic}
                 alt="Parth"
                 className="
           /* Mobile: Slightly tall or square */
@@ -121,9 +123,7 @@ function App() {
         </section>
 
         <hr className="border-slate-900" />
-
-        <section id='about' className="py-6
-        z">
+        <section id='about' className="py-20">
           <div className="max-w-3xl mx-auto text-center">
             <h3 className="text-3xl font-bold text-white mb-4">About Me</h3>
             <p className="text-slate-400 text-lg leading-relaxed bg-slate-900/50 p-6 rounded-lg">
@@ -160,7 +160,7 @@ function App() {
                   <div className="aspect-video bg-slate-900 rounded-2xl mb-4 overflow-hidden border border-slate-800 group-hover:border-blue-500/50 transition">
                     <div className="w-full h-full bg-gradient-to-br from-blue-600/20 to-transparent p-8">
                       <div className="h-full w-full rounded-t-lg bg-slate-800 shadow-2xl rounded-lg">
-                        <img src="src/assets/mE40HHY.png" alt="E-Commerce Dashboard" className="w-full h-full object-cover rounded-lg " />
+                        <img src={projectOne} alt="E-Commerce Dashboard" className="w-full h-full object-cover rounded-lg " />
                       </div>
 
                     </div>
