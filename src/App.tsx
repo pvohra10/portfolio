@@ -1,4 +1,8 @@
 import './App.css'
+interface ContactFormSectionProps {
+  open: boolean
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>
+}
 import {
   Carousel,
   CarouselContent,
@@ -14,7 +18,7 @@ function App() {
   // Logic to handle opening the form from the nav button
   const [isFormOpen, setIsFormOpen] = useState(false)
 
-  const handleContactClick = (e) => {
+  const handleContactClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault(); // Stop the default jump behavior
     setIsFormOpen(true); // Open the contact form
 
@@ -239,7 +243,7 @@ function App() {
   )
 }
 
-function ContactFormSection({ open, setOpen }) {
+function ContactFormSection({ open, setOpen }: ContactFormSectionProps) {
   return (
     <div>
       <button
