@@ -1,4 +1,8 @@
 import './App.css'
+interface ContactFormSectionProps {
+  open: boolean
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>
+}
 import {
   Carousel,
   CarouselContent,
@@ -7,25 +11,23 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel"
 import Aurora from "@/components/Aurora"
+
 import { useState } from "react"
 
-// Interface for the Contact Form Props
-interface ContactFormSectionProps {
-  open: boolean
-  setOpen: React.Dispatch<React.SetStateAction<boolean>>
-}
-
 function App() {
+  // Logic to handle opening the form from the nav button
   const [isFormOpen, setIsFormOpen] = useState(false)
 
-  // FIX: Added React.MouseEvent type
+  // FIX: Added React.MouseEvent<HTMLButtonElement> to 'e'
   const handleContactClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-    setIsFormOpen(true);
+    e.preventDefault(); // Stop the default jump behavior
+    setIsFormOpen(true); // Open the contact form
 
+    // We use a small timeout to let the DOM update and the form start expanding 
+    // before we calculate the scroll position.
     setTimeout(() => {
       const contactSection = document.getElementById('contact');
-      // FIX: Null check for the element
+      // FIX: Added check to ensure contactSection isn't null
       if (contactSection) {
         contactSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
@@ -33,6 +35,9 @@ function App() {
   };
 
   return (
+
+    //Page container, sets background color whole screen to slate, text automatically light gray
+    //Text selection color auto blue with some opacity, looks nice on dark background
     <div className="min-h-screen bg-slate-950 text-slate-200 selection:bg-blue-500/30">
 
       {/* Navigation */}
@@ -43,6 +48,7 @@ function App() {
           <div className="space-x-8 text-sm font-medium hidden md:flex items-center">
             <a href="#projects" className="text-slate-400 hover:text-white transition">Projects</a>
             <a href="#about" className="text-slate-400 hover:text-white transition">About</a>
+            {/* Nav button now triggers the form open logic */}
             <button
               onClick={handleContactClick}
               className="bg-white text-black px-5 py-2 rounded-full font-bold text-xs uppercase tracking-wider hover:bg-blue-500 hover:text-white transition-all cursor-pointer"
@@ -67,6 +73,7 @@ function App() {
       <main className="relative z-10 max-w-7xl mx-auto px-2">
         {/* Hero Section */}
         <section className="relative py-12 md:py-24 flex flex-col md:flex-row items-center">
+
           <div className="relative z-10 flex flex-col md:flex-row items-center justify-between w-full max-w-7xl mx-auto px-6">
 
             {/* Left Side: Text Content */}
@@ -95,52 +102,75 @@ function App() {
               </div>
             </div>
 
-            {/* Right Side: Image */}
+            {/* Right Side: Image - Changes shape based on screen size */}
             <div className="relative z-10 flex-shrink-0 mt-12 md:mt-0 md:-ml-40 lg:-ml-64 hover:scale-105 transition-transform duration-500">
               <img
                 src="src/assets/picture_of_me.jpg"
                 alt="Parth"
-                className="w-64 h-80 md:w-[500px] md:h-[300px] lg:w-[600px] lg:h-[350px] rounded-2xl object-cover border border-slate-700/50 shadow-2xl transition-all duration-500"
+                className="
+          /* Mobile: Slightly tall or square */
+          w-64 h-80 
+          /* Desktop: Wide Horizontal Rectangle */
+          md:w-[500px] md:h-[300px] lg:w-[600px] lg:h-[350px] 
+          rounded-2xl object-cover border border-slate-700/50 shadow-2xl transition-all duration-500
+        "
               />
             </div>
+
           </div>
         </section>
 
         <hr className="border-slate-900" />
 
-        {/* About Section */}
-        <section id='about' className="py-6">
+        <section id='about' className="py-6
+        z">
           <div className="max-w-3xl mx-auto text-center">
             <h3 className="text-3xl font-bold text-white mb-4">About Me</h3>
             <p className="text-slate-400 text-lg leading-relaxed bg-slate-900/50 p-6 rounded-lg">
-              I'm a passionate Computer Engineering student at the University of Waterloo, specializing in software development and AI. With a strong foundation in programming languages like Python, JavaScript, and C++, I enjoy building innovative projects that solve real-world problems.
+              I'm a passionate Computer Engineering student at the University of Waterloo, specializing in software development and AI. With a strong foundation in programming languages like Python, JavaScript, and C++, I enjoy building innovative projects that solve real-world problems. I'm eager to apply my skills in a dynamic internship where I can contribute to impactful projects and continue learning.
             </p>
           </div>
         </section>
 
         <hr className="border-slate-900" />
-
         {/* Project Preview Carousel */}
         <section id="projects" className="py-20">
           <div className="mb-12">
-            <h3 className="text-3xl font-bold text-white mb-2">Featured Projects</h3>
-            <p className="text-slate-400">A glimpse into my recent development projects.</p>
+            <h3 className="text-3xl font-bold text-white mb-2">
+              Featured Projects
+            </h3>
+            <p className="text-slate-400">
+              A glimpse into my recent development projects.
+            </p>
           </div>
 
-          <Carousel opts={{ align: "start" }} className="w-full">
+          <Carousel
+            opts={{
+              align: "start",
+            }}
+            className="w-full"
+          >
             <CarouselContent className="-ml-6">
+
               {/* Project 1 */}
               <CarouselItem className="pl-6 md:basis-1/2">
+
                 <div className="group cursor-pointer">
+
                   <div className="aspect-video bg-slate-900 rounded-2xl mb-4 overflow-hidden border border-slate-800 group-hover:border-blue-500/50 transition">
                     <div className="w-full h-full bg-gradient-to-br from-blue-600/20 to-transparent p-8">
-                      <div className="h-full w-full rounded-t-lg bg-slate-800 shadow-2xl rounded-lg overflow-hidden">
-                        <img src="src/assets/mE40HHY.png" alt="E-Commerce Dashboard" className="w-full h-full object-cover" />
+                      <div className="h-full w-full rounded-t-lg bg-slate-800 shadow-2xl rounded-lg">
+                        <img src="src/assets/mE40HHY.png" alt="E-Commerce Dashboard" className="w-full h-full object-cover rounded-lg " />
                       </div>
+
                     </div>
                   </div>
-                  <h4 className="text-xl font-bold text-white group-hover:text-blue-400 transition">E-Commerce Dashboard</h4>
-                  <p className="text-slate-400 text-sm">React • Tailwind • Stripe</p>
+                  <h4 className="text-xl font-bold text-white group-hover:text-blue-400 transition">
+                    E-Commerce Dashboard
+                  </h4>
+                  <p className="text-slate-400 text-sm">
+                    React • Tailwind • Stripe
+                  </p>
                 </div>
               </CarouselItem>
 
@@ -149,28 +179,56 @@ function App() {
                 <div className="group cursor-pointer">
                   <div className="aspect-video bg-slate-900 rounded-2xl mb-4 overflow-hidden border border-slate-800 group-hover:border-blue-500/50 transition">
                     <div className="w-full h-full bg-gradient-to-br from-purple-600/20 to-transparent p-8">
-                      <div className="h-full w-full rounded-lg bg-slate-800 shadow-2xl" />
+                      <div className="h-full w-full rounded-t-lg bg-slate-800 shadow-2xl" />
                     </div>
                   </div>
-                  <h4 className="text-xl font-bold text-white group-hover:text-blue-400 transition">AI Task Manager</h4>
-                  <p className="text-slate-400 text-sm">Next.js • OpenAI • PostgreSQL</p>
+                  <h4 className="text-xl font-bold text-white group-hover:text-blue-400 transition">
+                    AI Task Manager
+                  </h4>
+                  <p className="text-slate-400 text-sm">
+                    Next.js • OpenAI • PostgreSQL
+                  </p>
                 </div>
               </CarouselItem>
+
+              {/* Project 3 */}
+              <CarouselItem className="pl-6 md:basis-1/2">
+                <div className="group cursor-pointer">
+                  <div className="aspect-video bg-slate-900 rounded-2xl mb-4 overflow-hidden border border-slate-800 group-hover:border-blue-500/50 transition">
+                    <div className="w-full h-full bg-gradient-to-br from-purple-600/20 to-transparent p-8">
+                      <div className="h-full w-full rounded-t-lg bg-slate-800 shadow-2xl" />
+                    </div>
+                  </div>
+                  <h4 className="text-xl font-bold text-white group-hover:text-blue-400 transition">
+                    AI Task Manager
+                  </h4>
+                  <p className="text-slate-400 text-sm">
+                    Next.js • OpenAI • PostgreSQL
+                  </p>
+                </div>
+              </CarouselItem>
+
             </CarouselContent>
+
             <CarouselPrevious className="bg-slate-900/80 backdrop-blur-md border border-slate-700 hover:bg-slate-800 text-white rounded-full h-10 w-10 transition" />
             <CarouselNext className="bg-slate-900/80 backdrop-blur-md border border-slate-700 hover:bg-slate-800 text-white rounded-full h-10 w-10 transition" />
           </Carousel>
         </section>
+
       </main>
 
       {/* Contact Section */}
       <section id="contact">
         <div className="max-w-6xl mx-auto px-8">
           <div className="py-20 border-t border-slate-900">
-            <h3 className="text-3xl font-bold text-white mb-4">Let's build something great together.</h3>
+            <h3 className="text-3xl font-bold text-white mb-4">
+              Let's build something great together.
+            </h3>
+
             <p className="text-slate-400 mb-8">
               I'm currently open to new opportunities. Whether you have a project in mind or just want to say hi, feel free to reach out!
             </p>
+
             <ContactFormSection open={isFormOpen} setOpen={setIsFormOpen} />
           </div>
         </div>
@@ -183,9 +241,11 @@ function App() {
         </p>
       </footer>
     </div>
+
   )
 }
 
+// FIX: Added the interface to the component parameters
 function ContactFormSection({ open, setOpen }: ContactFormSectionProps) {
   return (
     <div>
@@ -196,21 +256,51 @@ function ContactFormSection({ open, setOpen }: ContactFormSectionProps) {
         {open ? "Close Form" : "Get in Touch"}
       </button>
 
-      <div className={`transition-all duration-500 overflow-hidden ${open ? "max-h-[600px] mt-10 opacity-100" : "max-h-0 opacity-0"}`}>
-        <form className="bg-slate-900 border border-slate-800 rounded-2xl p-8 space-y-6">
+      {/* Animated Form Container */}
+      <div
+        className={`transition-all duration-500 overflow-hidden ${open ? "max-h-[600px] mt-10 opacity-100" : "max-h-0 opacity-0"
+          }`}
+      >
+        <form
+          className="bg-slate-900 border border-slate-800 rounded-2xl p-8 space-y-6"
+        >
           <div>
-            <label className="block text-sm text-slate-400 mb-2">Name</label>
-            <input type="text" className="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Your name" />
+            <label className="block text-sm text-slate-400 mb-2">
+              Name
+            </label>
+            <input
+              type="text"
+              className="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="Your name"
+            />
           </div>
+
           <div>
-            <label className="block text-sm text-slate-400 mb-2">Email</label>
-            <input type="email" className="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="your@email.com" />
+            <label className="block text-sm text-slate-400 mb-2">
+              Email
+            </label>
+            <input
+              type="email"
+              className="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="your@email.com"
+            />
           </div>
+
           <div>
-            <label className="block text-sm text-slate-400 mb-2">Message</label>
-            <textarea rows={5} className="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Tell me about your project..." />
+            <label className="block text-sm text-slate-400 mb-2">
+              Message
+            </label>
+            <textarea
+              rows={5}
+              className="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="Tell me about your project..."
+            />
           </div>
-          <button type="submit" className="bg-blue-600 hover:bg-blue-500 text-white px-6 py-3 rounded-lg font-semibold transition">
+
+          <button
+            type="submit"
+            className="bg-blue-600 hover:bg-blue-500 text-white px-6 py-3 rounded-lg font-semibold transition"
+          >
             Send Message
           </button>
         </form>
