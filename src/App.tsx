@@ -14,7 +14,14 @@ import Aurora from "@/components/Aurora"
 
 import { useState } from "react"
 import myProfilePic from './assets/picture_of_me.jpg';
-import projectOne from './assets/mE40HHY.png';
+import projectOne from './assets/timerv5.jpg';
+import projectTwo from './assets/unity.png';
+import projectThree from './assets/MPU6050-Module-Gyroscope-Axis.jpg';
+
+import { useForm, ValidationError } from '@formspree/react';
+
+
+// import projectThree from './assets/ai_task_manager.png';
 
 function App() {
   // Logic to handle opening the form from the nav button
@@ -166,44 +173,55 @@ function App() {
                     </div>
                   </div>
                   <h4 className="text-xl font-bold text-white group-hover:text-blue-400 transition">
-                    E-Commerce Dashboard
+                    Timer V5 Digital Timer – Full PCB Solder & Reflow Implementation
                   </h4>
                   <p className="text-slate-400 text-sm">
-                    React • Tailwind • Stripe
+                    SMD • Reflow • PCB
                   </p>
                 </div>
               </CarouselItem>
 
               {/* Project 2 */}
               <CarouselItem className="pl-6 md:basis-1/2">
+
                 <div className="group cursor-pointer">
+
                   <div className="aspect-video bg-slate-900 rounded-2xl mb-4 overflow-hidden border border-slate-800 group-hover:border-blue-500/50 transition">
-                    <div className="w-full h-full bg-gradient-to-br from-purple-600/20 to-transparent p-8">
-                      <div className="h-full w-full rounded-t-lg bg-slate-800 shadow-2xl" />
+                    <div className="w-full h-full bg-gradient-to-br from-blue-600/20 to-transparent p-8">
+                      <div className="h-full w-full rounded-t-lg bg-slate-800 shadow-2xl rounded-lg">
+                        <img src={projectTwo} alt="E-Commerce Dashboard" className="w-full h-full object-cover rounded-lg " />
+                      </div>
+
                     </div>
                   </div>
                   <h4 className="text-xl font-bold text-white group-hover:text-blue-400 transition">
-                    AI Task Manager
+                    Unity Game Prototype
                   </h4>
                   <p className="text-slate-400 text-sm">
-                    Next.js • OpenAI • PostgreSQL
+                    C# • Unity Engine • Game Development
                   </p>
                 </div>
               </CarouselItem>
 
+
               {/* Project 3 */}
               <CarouselItem className="pl-6 md:basis-1/2">
+
                 <div className="group cursor-pointer">
+
                   <div className="aspect-video bg-slate-900 rounded-2xl mb-4 overflow-hidden border border-slate-800 group-hover:border-blue-500/50 transition">
-                    <div className="w-full h-full bg-gradient-to-br from-purple-600/20 to-transparent p-8">
-                      <div className="h-full w-full rounded-t-lg bg-slate-800 shadow-2xl" />
+                    <div className="w-full h-full bg-gradient-to-br from-blue-600/20 to-transparent p-8">
+                      <div className="h-full w-full rounded-t-lg bg-slate-800 shadow-2xl rounded-lg">
+                        <img src={projectThree} alt="E-Commerce Dashboard" className="w-full h-full object-cover rounded-lg " />
+                      </div>
+
                     </div>
                   </div>
                   <h4 className="text-xl font-bold text-white group-hover:text-blue-400 transition">
-                    AI Task Manager
+                    MPU6050 Gyroscope Tilt Angle Measurement
                   </h4>
                   <p className="text-slate-400 text-sm">
-                    Next.js • OpenAI • PostgreSQL
+                    I2C • UART • HAL
                   </p>
                 </div>
               </CarouselItem>
@@ -245,8 +263,26 @@ function App() {
   )
 }
 
-// FIX: Added the interface to the component parameters
 function ContactFormSection({ open, setOpen }: ContactFormSectionProps) {
+  const [state, handleSubmit] = useForm("xaqpwlnd");
+
+  if (state.succeeded) {
+    return (
+      <div>
+        <button
+          onClick={() => setOpen(!open)}
+          className="inline-block bg-blue-600 hover:bg-blue-500 text-white px-6 py-3 rounded-lg font-semibold transition"
+        >
+          {open ? "Close Form" : "Get in Touch"}
+        </button>
+
+        <p className="mt-6 text-green-400 font-semibold">
+          Thanks for your message!
+        </p>
+      </div>
+    );
+  }
+
   return (
     <div>
       <button
@@ -258,10 +294,12 @@ function ContactFormSection({ open, setOpen }: ContactFormSectionProps) {
 
       {/* Animated Form Container */}
       <div
-        className={`transition-all duration-500 overflow-hidden ${open ? "max-h-[600px] mt-10 opacity-100" : "max-h-0 opacity-0"
-          }`}
+        className={`transition-all duration-500 overflow-hidden ${
+          open ? "max-h-[600px] mt-10 opacity-100" : "max-h-0 opacity-0"
+        }`}
       >
         <form
+          onSubmit={handleSubmit}
           className="bg-slate-900 border border-slate-800 rounded-2xl p-8 space-y-6"
         >
           <div>
@@ -270,8 +308,14 @@ function ContactFormSection({ open, setOpen }: ContactFormSectionProps) {
             </label>
             <input
               type="text"
+              name="name"
               className="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
               placeholder="Your name"
+            />
+            <ValidationError
+              prefix="Name"
+              field="name"
+              errors={state.errors}
             />
           </div>
 
@@ -281,8 +325,14 @@ function ContactFormSection({ open, setOpen }: ContactFormSectionProps) {
             </label>
             <input
               type="email"
+              name="email"
               className="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
               placeholder="your@email.com"
+            />
+            <ValidationError
+              prefix="Email"
+              field="email"
+              errors={state.errors}
             />
           </div>
 
@@ -291,22 +341,30 @@ function ContactFormSection({ open, setOpen }: ContactFormSectionProps) {
               Message
             </label>
             <textarea
+              name="message"
               rows={5}
               className="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
               placeholder="Tell me about your project..."
+            />
+            <ValidationError
+              prefix="Message"
+              field="message"
+              errors={state.errors}
             />
           </div>
 
           <button
             type="submit"
-            className="bg-blue-600 hover:bg-blue-500 text-white px-6 py-3 rounded-lg font-semibold transition"
+            disabled={state.submitting}
+            className="bg-blue-600 hover:bg-blue-500 text-white px-6 py-3 rounded-lg font-semibold transition disabled:opacity-50"
           >
-            Send Message
+            {state.submitting ? "Sending..." : "Send Message"}
           </button>
         </form>
       </div>
     </div>
-  )
+  );
 }
+
 
 export default App
